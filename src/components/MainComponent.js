@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
+import Directory from './DirectoryComponent';
+//import CampsiteInfo from './CampsiteInfoComponent';
 import Home from './HomeComponent';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Directory from './DirectoryComponent';
-import CampsiteInfo from './CampsiteInfoComponent';
 import { CAMPSITES } from '../shared/campsites';
 
 class Main extends Component {
@@ -15,17 +15,14 @@ class Main extends Component {
         };
     }
 
-    onCampsiteSelect(campsiteId) {
-        this.setState({selectedCampsite: campsiteId});
-    }
-
     render() {
 
         const HomePage = () => {
             return (
                 <Home />
             );
-        }
+        };
+        
         return (
             <div>
                 <Header />
