@@ -13,17 +13,19 @@ function RenderCard({item}) {
     )
 }
 function Home(props) {
+    console.log(props);
     return (
+        
         <div className="container">
             <div className="row">
                 <div className="col-md m-1">
                     <RenderCard item={props.campsite} />
                 </div>
                 <div className="col-md m-1">
-                    <RenderCard item={props.promotion} />
+                   <RenderCard item={props.promotion} />
                 </div>
                 <div className="col-md m-1">
-                    <RenderCard item={props.partner} />
+                    <RenderCard item={props.partner} /> 
                 </div>
             </div>
         </div>
