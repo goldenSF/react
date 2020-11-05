@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody, Col, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Form,
+import { Card, CardImg, CardText, CardBody, Col, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody,
 FormGroup, Input, Label } from 'reactstrap';
 import {  Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+
+const required = val => val && val.length;
+const maxLength = len => val => !val || (val.length <= len);
+const minLength = len => val => val && (val.length >= len);
 
     function RenderCampsite({campsite}) {
         return(
@@ -60,7 +64,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
         }
         render() {
             return(
-                <div>
+                <>
                 <Button outline onClick={this.toggleModal}>
                 <i className="fa fa-pencil fa-lg" /> Submit Comments
                 </Button>
@@ -145,7 +149,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                         </LocalForm>
                     </ModalBody>
                 </Modal>
-                </div>
+                </>
 
             )
         }
@@ -174,5 +178,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
         }
         return <div />;
     }
+
+   
 
 export default CampsiteInfo;

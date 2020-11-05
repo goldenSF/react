@@ -70,11 +70,11 @@ class Header extends Component {
                                     </NavLink>
                                 </NavItem>
                                 </Nav>
-                            <span className="navbar-text ml-auto">
-                                <Button outline onClick={this.toggleModal}>
-                                    <i className="fa fa-sign-in fa-lg" /> Login
-                                </Button>
-                            </span>
+                                <span className="navbar-text ml-auto">
+                                    <Button outline onClick={this.toggleModal}>
+                                        <i className="fa fa-sign-in fa-lg" /> Login
+                                    </Button>
+                                </span>
                         </Collapse>
                     </div>
                 </Navbar>
