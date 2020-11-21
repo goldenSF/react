@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Card, CardImg, CardText, CardBody, Col, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody,
-FormGroup, Input, Label } from 'reactstrap';
+Label } from 'reactstrap';
 import {  Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
@@ -10,7 +10,7 @@ const minLength = len => val => val && (val.length >= len);
 
     function RenderCampsite({campsite}) {
         return(
-            <div className="col-md-5 and m-1">
+            <div className="col-md-5 m-1">
                 <Card>
                     <CardImg top src={campsite.image} alt={campsite.name} />
                     <CardBody>
@@ -31,20 +31,20 @@ const minLength = len => val => val && (val.length >= len);
     function RenderComments({comments}) {
        if (comments) {
         return(
-            <div className="col-md-5 and m-1">
+            <div className="col-md-5 m-1">
                 <h4 className="header">Comments</h4>
                 {comments.map (comment => (
-                    <div>
-                        <div key={comment.id}>{comment.text}</div>
-                        <div key={comment.id}>{comment.author} {FormatDate(comment.date)}</div>
-                    </div> 
+                    <div key={comment.id}>
+                    <p>{comment.text}<br />
+                    -- {comment.author},  {this.formatDate(comment.date)}</p>
+                </div> 
                 )
-                    )}
-                    <CommentForm />
+                )}
+                <CommentForm />
             </div>    
         )
     }
-         return <div />
+        return <div />
     }
 
     class CommentForm extends Component {
@@ -62,90 +62,72 @@ const minLength = len => val => val && (val.length >= len);
                 isModalOpen: !this.state.isModalOpen
             });
         }
+
+        handleSubmit(values) {
+            console.log("Current state is: " + JSON.stringify(values));
+            alert("Current state is: " + JSON.stringify(values));
+        }
+
         render() {
             return(
                 <>
                 <Button outline onClick={this.toggleModal}>
-                <i className="fa fa-pencil fa-lg" /> Submit Comments
+                    <i className="fa fa-pencil fa-lg" /> Submit Comment
                 </Button>
 
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
                     <ModalBody>
-                    <LocalForm onSubmit={this.handleSubmit}>
-                            <FormGroup row>
-                                <Label htmlFor="firstName" md={2}>First Name</Label>
+                        <LocalForm onSubmit={this.handleSubmit}>
+                            <div className="form-group">
+                                <Label htmlFor="rating" md={2}>Rating</Label>
                                 <Col md={10}>
-                                    <Input type="text" id="firstName" name="firstName"
-                                        placeholder="First Name"
-                                        value={this.state.firstName}
-                                        onChange={this.handleInputChange} />
+                                    <Control.select model="user.faveColor" id="user.faveColor">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </Control.select>
                                 </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label htmlFor="lastName" md={2}>Last Name</Label>
-                                <Col md={10}>
-                                    <Input type="text" id="lastName" name="lastName"
-                                        placeholder="Last Name"
-                                        value={this.state.lastName}
-                                        onChange={this.handleInputChange} />
-                                </Col>                        
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label htmlFor="phoneNum" md={2}>Phone</Label>
-                                <Col md={10}>
-                                    <Input type="tel" id="phoneNum" name="phoneNum"
-                                        placeholder="Phone number"
-                                        value={this.state.phoneNum}
-                                        onChange={this.handleInputChange} />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label htmlFor="email" md={2}>Email</Label>
-                                <Col md={10}>
-                                    <Input type="email" id="email" name="email"
-                                        placeholder="Email"
-                                        value={this.state.email}
-                                        onChange={this.handleInputChange} />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Col md={{size: 4, offset: 2}}>
-                                    <FormGroup check>
-                                        <Label check>
-                                            <Input type="checkbox"
-                                                name="agree"
-                                                checked={this.state.agree}
-                                                onChange={this.handleInputChange} /> {' '}
-                                            <strong>May we contact you?</strong>
-                                        </Label>
-                                    </FormGroup>
-                                </Col>
-                                <Col md={4}>
-                                    <Input type="select" name="contactType"
-                                            value={this.state.contactType}
-                                            onChange={this.handleInputChange}>
-                                        <option>By Phone</option>
-                                        <option>By Email</option>
-                                    </Input>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label htmlFor="feedback" md={2}>Your Feedback</Label>
-                                <Col md={10}>
-                                    <Input type="textarea" id="feedback" name="feedback"
-                                        rows="12"
-                                        value={this.state.feedback}
-                                        onChange={this.handleInputChange}></Input>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Col md={{size: 10, offset: 2}}>
+                            </div>
+                            <div className="form-group">
+                                <Label htmlFor="author" md={2}>Author</Label>
+                                <Control.text model=".author" id="author" name="author"
+                                        placeholder="Author"
+                                        className="form-control"
+                                        validators={{
+                                            required, 
+                                            minLength: minLength(2),
+                                            maxLength: maxLength(15)
+                                        }}
+                                    />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".author"
+                                        show="touched"
+                                        component="div"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be at least 2 characters',
+                                            maxLength: 'Must be 15 characters or less'
+                                        }}
+                                    />
+                            </div>
+                            <div className="form-group">
+                                <Label htmlFor="text" md={2}>Comment</Label>
+                                <Control.textarea model=".text" id="text" name="text" rows="6" 
+                                        placeholder="Comment"
+                                        className="form-control"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <Col md={{size: 10}}>
                                     <Button type="submit" color="primary">
-                                        Send Feedback
+                                        Submit
                                     </Button>
                                 </Col>
-                            </FormGroup>
+                            </div>
                         </LocalForm>
                     </ModalBody>
                 </Modal>
@@ -155,8 +137,10 @@ const minLength = len => val => val && (val.length >= len);
         }
     }
 
+
     function CampsiteInfo(props) {
         if (props.campsite) {
+            console.log(props.campsite)
             return (
                 <div className="container">
                 <div className="row">
